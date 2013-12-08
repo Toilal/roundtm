@@ -1,0 +1,12 @@
+name: Tournoi Interne
+generator: random
+participant_count_per_team: 2
+team_count_per_match: 2
+areas:
+  -  Terrain 1
+  -  Terrain 2
+  -  Terrain 3
+  -  Terrain 4
+  -  Terrain 5
+  -  Terrain 6
+  -  Terrain 7
