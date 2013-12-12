@@ -92,7 +92,8 @@ class Event(object):
                         team_stats.wins = team_stats.wins + 1
                     team_stats.rounds = team_stats.rounds + 1
                     for participant in team.participants:
-                        inactive_participants.remove(participant)
+                        if participant in inactive_participants:
+                            inactive_participants.remove(participant)
                         participant_stats = participants_stats.get(participant)
                         if not participant_stats:
                             participant_stats = Stats(participant)
