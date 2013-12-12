@@ -38,7 +38,7 @@ class Participant(ReprMixin):
     """A Participant"""
     def __init__(self, firstName, lastName=None, women=False):
         if not lastName and firstName.index(' ') > -1:
-            fullname = firstName.split(' ', 2)
+            fullname = firstName.split(' ', 1)
             self.firstName = fullname[0]
             self.lastName = fullname[1]
         else:

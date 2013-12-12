@@ -23,11 +23,12 @@ from __future__ import unicode_literals
 
 class Stats(object):
     """Stats for a participant or a team"""
-    def __init__(self, source, points=0, wins=0, rounds=0):
+    def __init__(self, source, points=0, wins=0, rounds=0, inactive_rounds=0):
         self.source = source
         self.points = points
         self.wins = wins
         self.rounds = rounds
+        self.inactive_rounds = inactive_rounds
 
     @property
     def points_ratio(self):
@@ -56,4 +57,4 @@ class Stats(object):
             return 1
 
     def __repr__(self):
-        return "{0} (wins:{1} [{2:.0f}%], rounds:{3}, points:{4} [{5}])".format(self.source.fullname, self.wins, self.wins_ratio * 100, self.rounds, self.points, self.points_ratio)
+        return "{0} (wins:{1} [{2:.0f}%], rounds:{3}/{4}, points:{5} [{6}])".format(self.source.fullname, self.wins, self.wins_ratio * 100, self.rounds, self.rounds + self.inactive_rounds, self.points, self.points_ratio)

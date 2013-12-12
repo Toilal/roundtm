@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 #
 # RoundTM - A Round based Tournament Manager
-# Copyright (c) 2013 Rémi Alvergnat <toilal.dev@gmail.com>
+# Copyright (c) 2013 RÃ©mi Alvergnat <toilal.dev@gmail.com>
 #
 # RoundTM is free software; you can redistribute it and/or modify it under
 # the terms of the Lesser GNU General Public License as published by
