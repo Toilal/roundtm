@@ -55,7 +55,8 @@ class Event(object):
     @property
     def ranking(self):
         self._load()
-        participants_stats, team_stats = self.stats
+        participants_stats, _ = self.stats
+        participants_stats = list(participants_stats.values())
         participants_stats.sort(cmp=Stats.__cmp__)
         return participants_stats
 
@@ -108,7 +109,7 @@ class Event(object):
                     participants_stats[inactive_participant] = participant_stats
                 participant_stats.inactive_rounds = participant_stats.inactive_rounds + 1
 
-        return list(participants_stats.values()), list(teams_stats.values())
+        return participants_stats, teams_stats
 
     def _load(self):
         """Loads data from filesystem. If not exists, the project will be created."""

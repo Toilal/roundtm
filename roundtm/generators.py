@@ -26,6 +26,7 @@ from .objects import Match, Team
 from random import shuffle
 
 import abc
+from roundtm.stats import Stats
 
 
 class Generator(object):
@@ -44,7 +45,7 @@ class Random(Generator):
         matches = Generator.generate(self, event)
 
         participants = list(event.participants)
-        shuffle(participants)
+        participants = self.sort_participants(event, participants)
 
         for area in event.configuration.areas:
             if len(participants) >= event.configuration.participant_count_per_team * event.configuration.team_count_per_match:
@@ -52,7 +53,7 @@ class Random(Generator):
                 for i in xrange(0, event.configuration.team_count_per_match):
                     team_participants = []
                     for j in xrange(0, event.configuration.participant_count_per_team):
-                        team_participants.append(participants.pop())
+                        team_participants.append(participants.pop(0))
                     teams.append(Team(*team_participants))
 
                 match = Match(area, *teams)
@@ -62,10 +63,40 @@ class Random(Generator):
 
         return matches
 
+    def sort_participants(self, event, participants):
+        shuffle(participants)
+        return participants
+
+
+class RandomWithPriority(Random):
+    def sort_participants(self, event, participants):
+        participants = Random.sort_participants(self, event, participants)
+        participants_stats, team_stats = event.stats
+
+        ordered_participants = {}
+
+        for participant in participants:
+            participants_stat = participants_stats.get(participant, Stats(participant))
+            participant_order = ordered_participants.get(participants_stat.inactive_rounds)
+            eq_participants = None
+            try:
+                eq_participants = ordered_participants[participant_order]
+            except KeyError:
+                eq_participants = []
+                ordered_participants[participant_order] = eq_participants
+            eq_participants.append(participant)
+
+        participants = []
+        for v in ordered_participants.values():
+            for participant in v:
+                participants.append(participant)
+
+        return list(reversed(participants))
+
 
 class GeneratorManager(object):
     def __init__(self):
-        self.generators = {'random': Random()}
+        self.generators = {'random': Random(), 'random_with_priority': RandomWithPriority()}
 
     def get(self, generator):
         return self.generators[generator]
