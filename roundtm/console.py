@@ -27,14 +27,16 @@ class Console(object):
     def __init__(self, event):
         self._event = event
 
+    @property
     def next_round(self):
         """Go to next round, using the provided strategy"""
         return self._event.next_round()
 
+    @property
     def ranking(self):
         """Display current ranking"""
         i = 1
-        for stat in self._event.ranking():
+        for stat in self._event.ranking:
             print "[%s] %s" % (i, stat)
             i += 1
 

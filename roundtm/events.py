@@ -52,9 +52,10 @@ class Event(object):
 
         round = self._add_round(matches)
 
+    @property
     def ranking(self):
         self._load()
-        participants_stats, team_stats = self._stats()
+        participants_stats, team_stats = self.stats
         participants_stats.sort(cmp=Stats.__cmp__)
         return participants_stats
 
@@ -62,7 +63,8 @@ class Event(object):
         for previous_round in self.rounds:
             previous_round.check_results()
 
-    def _stats(self):
+    @property
+    def stats(self):
         self._load()
 
         participants_stats = {}
